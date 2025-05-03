@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot P4</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+      background-color: #1C242E;
+      color: #FEFEFE;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #56D54F;
+      margin-bottom: 20px;
+    }
+    .chat-box {
+      width: 100%;
+      max-width: 600px;
+      background: #2C3A47;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    button {
+      background-color: #56D54F;
+      color: #1C242E;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .resposta {
+      margin-top: 16px;
+      padding: 12px;
+      background-color: #BAFF00;
+      color: #1C242E;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-box">
+    <h1>Chatbot P4</h1>
+    <input type="text" id="pergunta" placeholder="Digite sua pergunta..." />
+    <button onclick="enviarPergunta()">Enviar</button>
+    <div class="resposta" id="resposta"></div>
+  </div>
+
+  <script>
+    async function enviarPergunta() {
+      const pergunta = document.getElementById("pergunta").value;
+      const respostaEl = document.getElementById("resposta");
+      respostaEl.textContent = "Pensando...";
+
+      const res = await fetch("/perguntar", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ pergunta })
+      });
+
+      const data = await res.json();
+      respostaEl.textContent = data.resposta;
+    }
+  </script>
+</body>
+</html>
